@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Config  configuration object
 type Config interface {
 	Get(path string) (interface{}, bool)
 	GetString(path string, defaultVal string) string
@@ -16,6 +17,7 @@ type config struct {
 	d map[string]interface{}
 }
 
+// ReadConfig produces a config object from a file name or a raw string
 func ReadConfig(configPathOrData string) (Config, error) {
 	c := &config{}
 
@@ -48,11 +50,15 @@ func getFromMap(pathSpec []string, lvl int, d map[string]interface{}) (interface
 	return val, ok
 }
 
+// Get gets a config value from the config object
+// values are specified hierarchically by a string path of the form 'foo.bar.baz' where each value between the dots is a level in the config json
 func (c *config) Get(path string) (interface{}, bool) {
 	pathSpec := strings.Split(path, ".")
 	return getFromMap(pathSpec, 0, c.d)
 }
 
+// GetString gets a string from the config object
+// values are specified hierarchically by a string path of the form 'foo.bar.baz' where each value between the dots is a level in the config json
 func (c *config) GetString(path string, defaultVal string) string {
 	if val, ok := c.Get(path); ok {
 		return val.(string)
@@ -61,6 +67,8 @@ func (c *config) GetString(path string, defaultVal string) string {
 	}
 }
 
+// GetInt gets an integer from the config object
+// values are specified hierarchically by a string path of the form 'foo.bar.baz' where each value between the dots is a level in the config json
 func (c *config) GetInt(path string, defaultVal int) int {
 	if val, ok := c.Get(path); ok {
 		if num, ok := val.(json.Number); ok {
