@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/nikogura/guestbook/config"
 	"github.com/nikogura/guestbook/service"
 	"github.com/nikogura/guestbook/state"
@@ -43,6 +42,7 @@ func main() {
 	err = service.Run(configObj.GetString("server.addr", ""), &manager)
 
 	if err != nil {
-		fmt.Errorf("error running server: %s", err)
+		log.Printf("error running server: %s", err)
+		os.Exit(1)
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// TestConfigFileName  name of the standard config file
 func TestConfigFileName() string {
 	return "guestbook.json"
 }
@@ -19,18 +20,13 @@ func TestConfigFileContents(dbPort int) string {
     }
   },
   "server": {
-    "addr": "localhost:8080",
-    "read_timeout": 5,
-    "write_timeout": 10
-  },
-  "monitor": {
-    "poll_interval": 30,
-    "deployment_timeout": 30
+    "addr": "localhost:8080"
   }
 }`, dbPort)
 
 }
 
+// TestDefaultConfig  a default config file for testing
 func TestDefaultConfig() *config {
 	c := config{
 		d: make(map[string]interface{}),
@@ -46,48 +42,29 @@ func TestDefaultConfig() *config {
 
 	server := make(map[string]interface{})
 	server["addr"] = TestDefaultServerAddr()
-	server["read_timeout"] = TestDefaultServerReadTimeout()
-	server["write_timeout"] = TestDefaultServerWriteTimeout()
-
-	monitor := make(map[string]interface{})
-	monitor["poll_interval"] = TestDefaultPollInterval()
-	monitor["deployment_timeout"] = TestDefaultDeploymentTimeout()
 
 	c.d["state"] = state
 	c.d["server"] = server
-	c.d["monitor"] = monitor
 
 	return &c
 }
 
-func TestDefaultPollInterval() json.Number {
-	return json.Number("30")
-}
-
-func TestDefaultDeploymentTimeout() json.Number {
-	return json.Number("30")
-}
-
+// TestDefaultServerAddr  the default server address
 func TestDefaultServerAddr() string {
 	return "localhost:8080"
 }
 
-func TestDefaultServerReadTimeout() json.Number {
-	return json.Number("5")
-}
-
-func TestDefaultServerWriteTimeout() json.Number {
-	return json.Number("10")
-}
-
+// TestDefaultManagerTypeName the default state manager type
 func TestDefaultManagerTypeName() string {
 	return "gorm"
 }
 
+// TestDefaultmanagerConnectString default connection string
 func TestDefaultManagerConnectString() string {
 	return "postgresql://guestbook:guestbook@localhost:5432/guestbook?sslmode=disable"
 }
 
+// TestDefaultManagerDialect default dialect of db
 func TestDefaultManagerDialect() string {
 	return "postgres"
 }
