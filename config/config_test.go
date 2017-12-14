@@ -14,7 +14,7 @@ var configFileName string
 var configObj Config
 
 func setUp() {
-	tempDir, err := ioutil.TempDir("", "eve")
+	tempDir, err := ioutil.TempDir("", "guestbook")
 	if err != nil {
 		fmt.Printf("Error creating temp dir %q: %s", tempDir, err)
 		os.Exit(1)

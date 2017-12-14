@@ -2,9 +2,9 @@ package state
 
 import (
 	"fmt"
-	"github.com/magiconair/properties/assert"
 	"github.com/nikogura/guestbook/config"
 	"github.com/stitchfix/go-postgres-testdb/testdb"
+	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"log"
 	"os"
