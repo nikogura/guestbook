@@ -2,12 +2,13 @@ package state
 
 import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // using blank import cos that's how I know this to work
 	"github.com/nikogura/guestbook/config"
 	"github.com/pkg/errors"
 	"log"
 )
 
+// GORMStateManager  the thing that connects to the db to maintain state
 type GORMStateManager struct {
 	Config config.Config
 	Logger *log.Logger
@@ -20,6 +21,7 @@ type Visitor struct {
 	IP   string
 }
 
+// NewGORMManager returns guess what?  A new GORMManager
 func NewGORMManager(config config.Config, logger *log.Logger) (manager GORMStateManager, err error) {
 
 	connectString, ok := config.Get("state.manager.connect_string")
@@ -49,6 +51,7 @@ func NewGORMManager(config config.Config, logger *log.Logger) (manager GORMState
 	return manager, err
 }
 
+// GetVisitor returns a visitor from the db, or an empty object if the visitor doesn't exist
 func (gm *GORMStateManager) GetVisitor(ip string) (visitor Visitor, err error) {
 	gm.db.Where("ip = ?", ip).First(&visitor)
 	if visitor.Name != "" {
@@ -57,6 +60,7 @@ func (gm *GORMStateManager) GetVisitor(ip string) (visitor Visitor, err error) {
 	return visitor, err
 }
 
+// NewVisitor creates a new visitor in the db
 func (gm *GORMStateManager) NewVisitor(visitor Visitor) (Visitor, error) {
 
 	err := gm.db.Create(&visitor).Error
@@ -64,6 +68,7 @@ func (gm *GORMStateManager) NewVisitor(visitor Visitor) (Visitor, error) {
 	return visitor, err
 }
 
+// RemoveVisitor removes a visitor from the db
 func (gm *GORMStateManager) RemoveVisitor(visitor Visitor) (err error) {
 	err = gm.db.Delete(&visitor).Error
 
