@@ -1,0 +1,26 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9.1
+      #- image: circleci/postgres:9.4
+
+    working_directory: /go/src/github.com/stitchfix/go-postgres-testdb
+    steps:
+      - checkout
+
+      # specify any bash command here prefixed with `run: `
+      - run: echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee -a /etc/apt/sources.list
+      - run: sudo apt-get install postgresql-all
+      - run: go get -v -t -d ./...
+      - run: go get github.com/kardianos/govendor
+      - run: govendor sync
+      - run: sudo chown -R circleci /var/run/postgresql
+      - run:
+          name: Run Tests
+          command: go test -v ./...
+          environment:
+            PATH: /usr/lib/postgresql/9.6/bin:/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
