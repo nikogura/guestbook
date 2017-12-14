@@ -6,9 +6,8 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.9.1
-      #- image: circleci/postgres:9.4
 
-    working_directory: /go/src/github.com/stitchfix/go-postgres-testdb
+    working_directory: /go/src/github.com/nikogura/guestbook
     steps:
       - checkout
 
