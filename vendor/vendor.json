@@ -39,12 +39,6 @@
 			"revisionTime": "2016-01-10T10:55:54Z"
 		},
 		{
-			"checksumSHA1": "klHhvqGaCN8kPYWhh4j02YKFvA0=",
-			"path": "github.com/stitchfix/go-postgres-testdb/testdb",
-			"revision": "3f662f97699886e94b97dfa8f5bde0ed96c41df9",
-			"revisionTime": "2017-11-01T00:02:32Z"
-		},
-		{
 			"checksumSHA1": "mGbTYZ8dHVTiPTTJu3ktp+84pPI=",
 			"path": "github.com/stretchr/testify/assert",
 			"revision": "2aa2c176b9dab406a6970f6a55f513e8a8c8b18f",
