@@ -1,0 +1,5 @@
+{
+  "version": "0.1.0",
+  "package": "github.com/nikogura/guestbook",
+  "description": "Typical guest book app."
+}
