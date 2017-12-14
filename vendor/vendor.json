@@ -27,10 +27,22 @@
 			"revisionTime": "2017-10-02T18:52:19Z"
 		},
 		{
+			"checksumSHA1": "ET/qgGVknzZw+EENbjfznVvV9N0=",
+			"path": "github.com/pkg/errors",
+			"revision": "8842a6e0cc595d1cc9d931f6c875883967280e32",
+			"revisionTime": "2017-12-10T02:24:16Z"
+		},
+		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
 			"path": "github.com/pmezard/go-difflib/difflib",
 			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
 			"revisionTime": "2016-01-10T10:55:54Z"
+		},
+		{
+			"checksumSHA1": "klHhvqGaCN8kPYWhh4j02YKFvA0=",
+			"path": "github.com/stitchfix/go-postgres-testdb/testdb",
+			"revision": "3f662f97699886e94b97dfa8f5bde0ed96c41df9",
+			"revisionTime": "2017-11-01T00:02:32Z"
 		},
 		{
 			"checksumSHA1": "mGbTYZ8dHVTiPTTJu3ktp+84pPI=",
