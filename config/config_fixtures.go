@@ -20,7 +20,8 @@ func TestConfigFileContents(dbPort int) string {
     }
   },
   "server": {
-    "addr": "localhost:8080"
+    "addr": "localhost:8080",
+		"port": 8080
   }
 }`, dbPort)
 
@@ -42,6 +43,7 @@ func TestDefaultConfig() *config {
 
 	server := make(map[string]interface{})
 	server["addr"] = TestDefaultServerAddr()
+	server["port"] = TestDefaultServerPort()
 
 	c.d["state"] = state
 	c.d["server"] = server
@@ -67,4 +69,8 @@ func TestDefaultManagerConnectString() string {
 // TestDefaultManagerDialect default dialect of db
 func TestDefaultManagerDialect() string {
 	return "postgres"
+}
+
+func TestDefaultServerPort() json.Number {
+	return json.Number("8080")
 }

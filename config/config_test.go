@@ -92,13 +92,13 @@ func TestConfig_GetString(t *testing.T) {
 }
 
 func TestConfig_GetInt(t *testing.T) {
-	expectedTimeout, err := strconv.Atoi(string(TestDefaultServerReadTimeout()))
+	expectedTimeout, err := strconv.Atoi(string(TestDefaultServerPort()))
 	if err != nil {
 		fmt.Printf("Error converting default memory %q to integer", err)
 		t.Fail()
 	}
 
-	actualTimeout := configObj.GetInt("server.read_timeout", 0)
+	actualTimeout := configObj.GetInt("server.port", 0)
 
 	assert.Equal(t, expectedTimeout, actualTimeout, "Integer fetched from GetInt matches expectations.")
 
