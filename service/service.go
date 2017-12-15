@@ -103,7 +103,7 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 func Run(address string, manager *state.GORMStateManager) error {
 	gm = manager
 
-	http.HandleFunc("/guestbook", RootHandler)
+	http.HandleFunc("/guestbook/", RootHandler)
 	http.HandleFunc("/guestbook/sign", SignHandler)
 
 	log.Printf("Server starting on address %s", address)
