@@ -9,7 +9,7 @@ import (
 )
 
 // ConfigFileName default config file name
-const ConfigFileName = "guestbook.json"
+const ConfigFileName = "/etc/guestbook/guestbook.json"
 
 // DefaultDBPort default database port
 const DefaultDBPort = 5432
