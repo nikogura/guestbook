@@ -10,6 +10,7 @@ func TestConfigFileName() string {
 	return "guestbook.json"
 }
 
+// TestConfigFileContents  default config file as a string
 func TestConfigFileContents(dbPort int) string {
 	return fmt.Sprintf(`{
   "state": {
@@ -61,7 +62,7 @@ func TestDefaultManagerTypeName() string {
 	return "gorm"
 }
 
-// TestDefaultmanagerConnectString default connection string
+// TestDefaultManagerConnectString default connection string
 func TestDefaultManagerConnectString() string {
 	return "postgresql://guestbook:guestbook@localhost:5432/guestbook?sslmode=disable"
 }
@@ -71,6 +72,7 @@ func TestDefaultManagerDialect() string {
 	return "postgres"
 }
 
+// TestDefaultServerPort  the default server port
 func TestDefaultServerPort() json.Number {
 	return json.Number("8080")
 }

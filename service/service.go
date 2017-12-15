@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// initial landing page
+// NewVisitorContent is the initial landing page
 const NewVisitorContent = `
 <html>
 	<body>
@@ -53,6 +53,7 @@ var postSubmitTemplate = template.Must(template.New("postSubmit").Parse(postSubm
 
 var returningVisitorTemplate = template.Must(template.New("returning").Parse(returningVisitorTemplateContent))
 
+// RootHandler is the default handler
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	ip := ParseIP(r)
 
@@ -75,6 +76,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// SignHandler is for handling the submitted form
 func SignHandler(w http.ResponseWriter, r *http.Request) {
 	ip := ParseIP(r)
 
@@ -97,6 +99,7 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Run actually runs the server
 func Run(address string, manager *state.GORMStateManager) error {
 	gm = manager
 
@@ -108,6 +111,7 @@ func Run(address string, manager *state.GORMStateManager) error {
 	return http.ListenAndServe(address, nil)
 }
 
+// ParseIP returns the visitor's IP address
 func ParseIP(r *http.Request) (ip string) {
 	log.Printf("Visitor Remote Addr: %s", r.RemoteAddr)
 	log.Printf("Visitor Forwarded Addr: %s", r.Header.Get("X-Forwarded-For"))

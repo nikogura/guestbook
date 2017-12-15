@@ -62,9 +62,9 @@ func (c *config) Get(path string) (interface{}, bool) {
 func (c *config) GetString(path string, defaultVal string) string {
 	if val, ok := c.Get(path); ok {
 		return val.(string)
-	} else {
-		return defaultVal
 	}
+
+	return defaultVal
 }
 
 // GetInt gets an integer from the config object

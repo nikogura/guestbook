@@ -8,7 +8,10 @@ import (
 	"os"
 )
 
+// default config file name
 const ConfigFileName = "guestbook.json"
+
+// default database port
 const DefaultDBPort = 5432
 
 var logger *log.Logger
