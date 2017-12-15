@@ -2,10 +2,10 @@ package service
 
 import (
 	"fmt"
+	"github.com/nikogura/go-postgres-testdb/testdb"
 	"github.com/nikogura/guestbook/config"
 	"github.com/nikogura/guestbook/state"
 	"github.com/phayes/freeport"
-	"github.com/stitchfix/go-postgres-testdb/testdb"
 	"io/ioutil"
 	"log"
 	"net/http"

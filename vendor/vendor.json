@@ -21,6 +21,12 @@
 			"revisionTime": "2017-10-10T13:28:39Z"
 		},
 		{
+			"checksumSHA1": "IvssLHLW0iaEhrVxFw8itxz2VT0=",
+			"path": "github.com/nikogura/go-postgres-testdb/testdb",
+			"revision": "8d5c4521bf01cc69cb25372b416d177a04ea18e6",
+			"revisionTime": "2017-12-14T23:37:38Z"
+		},
+		{
 			"checksumSHA1": "kZRhErakejBG0U2e8D+Ap/Djje8=",
 			"path": "github.com/phayes/freeport",
 			"revision": "e27662a4a9d6b2083dfd7e7b5d0e30985daca925",
@@ -37,12 +43,6 @@
 			"path": "github.com/pmezard/go-difflib/difflib",
 			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
 			"revisionTime": "2016-01-10T10:55:54Z"
-		},
-		{
-			"checksumSHA1": "klHhvqGaCN8kPYWhh4j02YKFvA0=",
-			"path": "github.com/stitchfix/go-postgres-testdb/testdb",
-			"revision": "8d5c4521bf01cc69cb25372b416d177a04ea18e6",
-			"revisionTime": "2017-12-14T23:37:38Z"
 		},
 		{
 			"checksumSHA1": "mGbTYZ8dHVTiPTTJu3ktp+84pPI=",

@@ -2,8 +2,8 @@ package state
 
 import (
 	"fmt"
+	"github.com/nikogura/go-postgres-testdb/testdb"
 	"github.com/nikogura/guestbook/config"
-	"github.com/stitchfix/go-postgres-testdb/testdb"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"log"
