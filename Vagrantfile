@@ -5,23 +5,24 @@ VAGRANTFILE_API_VERSION = "2"
 default_box = "ubuntu/trusty64"
 
 virtual_machines = [
+    # db needs to come up first
+    {
+        :name => "db",
+        :provision => [
+            "installers/db.sh"
+        ]
+    },
     {
         :name => "app",
         :provision => [
             "installers/app.sh"
         ],
         :forwarded_ports => [
-          host: 8080,
-          guest: 8080,
+            host: 8080,
+            guest: 8080,
         ],
 
     },
-    {
-        :name => "db",
-        :provision => [
-            "installers/db.sh"
-        ]
-    }
 ]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
