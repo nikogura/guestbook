@@ -4,7 +4,7 @@ echo "upgrading system"
 DEBIAN_FRONTEND=noninteractive sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade
 
 echo "Installing Git"
-DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git
+DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git nginx
 
 echo "Installing Go"
 
@@ -40,7 +40,7 @@ CONFIG=$(cat <<EOF
     }
   },
   "server": {
-    "addr": "0.0.0.0:8080"
+    "addr": "localhost:8080"
   }
 }
 EOF
@@ -75,5 +75,28 @@ EOF
 echo "$INITSCRIPT" | sudo tee /etc/init/guestbook.conf
 
 sudo service guestbook start
+
+NGINX=$(cat <<'EOF'
+server {
+    listen 80 default_server;
+    server_name localhost;
+
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+
+    location /guestbook {
+        proxy_pass http://localhost:8080/guestbook;
+    }
+}
+
+EOF
+)
+
+echo -e "$NGINX" | sudo tee /etc/nginx/sites-available/guestbook
+
+sudo ln -s /etc/nginx/sites-available/guestbook /etc/nginx/sites-enabled/guestbook
+sudo rm /etc/nginx/sites-enabled/default
+
+sudo service nginx restart
 
 

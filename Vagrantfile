@@ -19,7 +19,7 @@ virtual_machines = [
         ],
         :forwarded_ports => [
             host: 8080,
-            guest: 8080,
+            guest: 80,
         ],
 
     },
