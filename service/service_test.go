@@ -46,14 +46,6 @@ func setUp() {
 	tmpDir = tempDir
 
 	// DB setup
-	dir, err := ioutil.TempDir("", "testdb")
-	if err != nil {
-		fmt.Printf("Error creating temp dir %q: %s", tempDir, err)
-		os.Exit(1)
-	}
-
-	tempDir = dir
-
 	dbName = "guestbook"
 	dbDir := fmt.Sprintf("%s/%s", tmpDir, dbName)
 
@@ -98,6 +90,8 @@ func setUp() {
 		log.Printf("Failed to create default config: %s", err)
 		os.Exit(1)
 	}
+
+	time.Sleep(time.Second * 3)
 
 	manager, err := state.NewGORMManager(configObj, logger)
 	if err != nil {
@@ -181,6 +175,10 @@ func TestService(t *testing.T) {
 	defer resp.Body.Close()
 
 	body, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Error reading response body: %s", err)
+		t.Fail()
+	}
 
 	re = regexp.MustCompile(fmt.Sprintf(`.*Good to see you again %s!.*`, username))
 
