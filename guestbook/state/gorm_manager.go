@@ -3,7 +3,7 @@ package state
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // using blank import cos that's how I know this to work
-	"github.com/nikogura/guestbook/config"
+	"github.com/nikogura/guestbook/guestbook/config"
 	"github.com/pkg/errors"
 	"log"
 )

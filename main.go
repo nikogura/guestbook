@@ -1,51 +1,21 @@
+// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package main
 
-import (
-	"github.com/nikogura/guestbook/config"
-	"github.com/nikogura/guestbook/service"
-	"github.com/nikogura/guestbook/state"
-	"log"
-	"os"
-)
-
-// ConfigFileName default config file name
-const ConfigFileName = "/etc/guestbook/guestbook.json"
-
-// DefaultDBPort default database port
-const DefaultDBPort = 5432
-
-var logger *log.Logger
+import "github.com/nikogura/guestbook/guestbook/cmd"
 
 func main() {
-	var configObj config.Config
-
-	if _, err := os.Stat(ConfigFileName); !os.IsNotExist(err) {
-		configObj, err = config.ReadConfig(ConfigFileName)
-		if err != nil {
-			log.Printf("Error reading config file %q: %s", ConfigFileName, err)
-			os.Exit(1)
-		}
-
-	} else {
-		configObj, err = config.ReadConfig(config.TestConfigFileContents(DefaultDBPort))
-		if err != nil {
-			log.Printf("Failed to create default config: %s", err)
-			os.Exit(1)
-		}
-	}
-
-	logger = log.New(os.Stderr, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-
-	manager, err := state.NewGORMManager(configObj, logger)
-	if err != nil {
-		log.Printf("Failed to instantiate state manager: %s", err)
-		os.Exit(1)
-	}
-
-	err = service.Run(configObj.GetString("server.addr", ""), &manager)
-
-	if err != nil {
-		log.Printf("error running server: %s", err)
-		os.Exit(1)
-	}
+	cmd.Execute()
 }

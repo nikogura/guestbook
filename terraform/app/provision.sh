@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
+export DEBIAN_FRONTEND=noninteractive
+
 echo "upgrading system"
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -15,14 +19,16 @@ sudo tar -C /usr/local -xzf go1.9.2.linux-amd64.tar.gz
 
 echo "Installing Go Tools"
 
-mkdir -p /go/bin
-mkdir -p /go/src
-mkdir -p /go/pkg
+sudo mkdir -p /go/bin
+sudo mkdir -p /go/src
+sudo mkdir -p /go/pkg
 
-sudo chown -R vagrant:vagrant /go
+sudo chown -R ubuntu:ubuntu /go
 
-echo "export PATH=$PATH:/usr/local/go/bin:/go/bin" > /etc/profile.d/go.sh
-echo "export GOPATH=/go" >> /etc/profile.d/go.sh
+echo "export PATH=$PATH:/usr/local/go/bin:/go/bin" | sudo tee  /etc/profile.d/go.sh
+echo "export GOPATH=/go" | sudo tee -a /etc/profile.d/go.sh
+
+sudo chmod 755 /etc/profile.d/go.sh
 
 . /etc/profile.d/go.sh
 
@@ -37,7 +43,7 @@ CONFIG=$(cat <<EOF
     "manager": {
       "type": "gorm",
 	  "dialect": "postgres",
-      "connect_string": "postgresql://guestbook:guestbook@db:5432/guestbook?sslmode=disable"
+      "connect_string": "postgresql://guestbook:guestbook@{{DATABASE_ELB}}:5432/guestbook?sslmode=disable"
     }
   },
   "server": {
@@ -47,9 +53,11 @@ CONFIG=$(cat <<EOF
 EOF
 )
 
+echo "Making /etc/guestbook"
+
 sudo mkdir -p /etc/guestbook
 
-echo "$CONFIG" > /etc/guestbook/guestbook.json
+echo "$CONFIG" | sudo tee /etc/guestbook/guestbook.json
 
 
 INITSCRIPT=$(cat <<'EOF'
@@ -68,12 +76,16 @@ umask 022
 
 console none
 
-exec /go/bin/guestbook &
+exec /go/bin/guestbook run &
 
 EOF
 )
 
+echo "Writing upstart config"
+
 echo "$INITSCRIPT" | sudo tee /etc/init/guestbook.conf
+
+echo "Starting service"
 
 sudo service guestbook start
 

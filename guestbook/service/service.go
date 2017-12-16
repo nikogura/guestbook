@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"github.com/nikogura/guestbook/state"
+	"github.com/nikogura/guestbook/guestbook/state"
 	"html/template"
 	"log"
 	"net/http"
