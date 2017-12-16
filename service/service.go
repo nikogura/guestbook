@@ -45,6 +45,9 @@ const postSubmitTemplateContent = `
 const returningVisitorTemplateContent = `
 <html>
 	<body>
+		<div>
+			<img src="/mountain-scene-welcome-sign-3.gif" alt="welcome sign" width="100">
+		</div>
 		<p>Good to see you again {{.Name}}!</p>
 	</body>
 </html>`
