@@ -19,7 +19,7 @@ sudo -u postgres /usr/bin/createuser guestbook
 sudo -u postgres psql -c "ALTER USER guestbook WITH PASSWORD 'guestbook';"
 
 
-echo "host    guestbook             guestbook             10.20.1.5/32            md5" | sudo tee -a /etc/postgresql/9.3/main/pg_hba.conf
+echo "host        guestbook             guestbook             backend            md5" | sudo tee -a /etc/postgresql/9.3/main/pg_hba.conf
 sudo sed -i "/# - Connection Settings -/a listen_addresses = '*'" /etc/postgresql/9.3/main/postgresql.conf
 
 sudo service postgresql restart
