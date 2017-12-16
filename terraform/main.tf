@@ -158,13 +158,13 @@ resource "aws_security_group" "backend" {
   description = "Security group for backend database servers"
   vpc_id      = "${aws_vpc.vpc_main.id}"
 
-  # SSH access the world, else we can't provision.
+  # SSH access else we can't provision.  Yup.  It's a backdoor.  Be different if we had a VPN, or if I was using a fancier provisioner.
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    #cidr_blocks = ["73.158.93.80/32"]
+    #cidr_blocks = ["${aws_subnet.app.cidr_block}"]
+    cidr_blocks = ["${var.home_ip}", "${aws_subnet.app.cidr_block}"]
   }
 
   # Access from the app servers
@@ -227,10 +227,10 @@ data "aws_availability_zones" "available" {}
 resource "aws_elb" "frontend" {
   name = "elb-frontend"
 
-  #subnets         = ["${aws_subnet.public.id}"]
+  subnets         = ["${aws_subnet.public.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
   instances       = ["${module.frontend.instance_ids}"]
-  availability_zones = ["${data.aws_availability_zones.available.names}"]
+  #availability_zones = ["${data.aws_availability_zones.available.names}"]
 
   listener {
     instance_port     = 80
@@ -255,7 +255,6 @@ resource "aws_elb" "app" {
   subnets         = ["${aws_subnet.app.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
   instances       = ["${module.app.instance_ids}"]
-  #availability_zones = ["${data.aws_availability_zones.available.names}"]
 
   listener {
     instance_port     = 8080

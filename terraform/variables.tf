@@ -8,6 +8,11 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "home_ip" {
+  description = "My home IP"
+  default = "73.158.93.80/32"
+}
+
 
 
 

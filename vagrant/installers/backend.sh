@@ -68,7 +68,7 @@ umask 022
 
 console none
 
-exec /go/bin/guestbook &
+exec /go/bin/guestbook run &
 
 EOF
 )
