@@ -9,7 +9,7 @@ virtual_machines = [
     {
         :name => "db",
         :provision => [
-            "installers/db.sh"
+            "installers/database.sh"
         ]
     },
     {
