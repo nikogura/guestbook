@@ -134,7 +134,8 @@ func ParseIP(r *http.Request) (ip string) {
 		// this could actually be several IPs, we're just gonna play simple and grab the first one
 		ips := strings.Split(r.Header.Get("X-Forwarded-For"), ", ")
 		if len(ips) > 0 {
-			ip = ips[len(ips)-1]
+			//ip = ips[len(ips)-1]
+			ip = ips[0]
 		}
 
 	} else {
