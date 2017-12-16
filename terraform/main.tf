@@ -164,7 +164,7 @@ resource "aws_security_group" "backend" {
     to_port     = 22
     protocol    = "tcp"
     #cidr_blocks = ["${aws_subnet.app.cidr_block}"]
-    cidr_blocks = ["${var.home_ip}", "${aws_subnet.app.cidr_block}"]
+    cidr_blocks = ["${var.home_ip}", "${aws_subnet.frontend.cidr_block}"]
   }
 
   # Access from the app servers
