@@ -105,12 +105,20 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HealthCheckHandler is for healthchecks
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Application is up\n")
+
+	return
+}
+
 // Run actually runs the server
 func Run(address string, manager *state.GORMStateManager) error {
 	gm = manager
 
 	http.HandleFunc("/guestbook/", RootHandler)
 	http.HandleFunc("/guestbook/sign", SignHandler)
+	http.HandleFunc("/guestbook/healthcheck", HealthCheckHandler)
 
 	log.Printf("Server starting on address %s", address)
 
