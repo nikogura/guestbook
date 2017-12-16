@@ -13,6 +13,9 @@ import (
 const NewVisitorContent = `
 <html>
 	<body>
+		<div>
+			<img src="/mountain-scene-welcome-sign-3.gif" alt="welcome sign" width="100">
+		</div>
 		<p>
 				Howdy stranger.  Ain't seen you around these parts. </br>
 
