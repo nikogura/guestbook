@@ -16,6 +16,7 @@ const DefaultDBPort = 5432
 
 var logger *log.Logger
 
+// Run runs the guestbook server
 func Run() {
 	var configObj config.Config
 
