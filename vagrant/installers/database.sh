@@ -4,13 +4,14 @@ echo "installing db repo"
 echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee -a /etc/apt/sources.list
 
 echo "upgrading system"
-DEBIAN_FRONTEND=noninteractive sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade
+sudo apt-get update
+sudo apt-get -y upgrade
 
 echo "installing db repo key"
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 echo "installing database"
-DEBIAN_FRONTEND=noninteractive sudo apt-get install --allow-unauthenticated  -y postgresql-all
+sudo apt-get -y install --allow-unauthenticated  postgresql-all
 
 
 echo "installing schema and user"

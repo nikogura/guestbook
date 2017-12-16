@@ -27,11 +27,6 @@ virtual_machines = [
             :host => 8080,
             :guest => 80,
         ],
-        :files => [
-          :src => "files/mountain-scene-welcome-sign-3.gif",
-          :dst => "/tmp/mountain-scene-welcome-sign-3.gif",
-        ],
-
     },
 ]
 

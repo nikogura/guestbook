@@ -30,7 +30,7 @@ echo -e "$NGINX" | sudo tee /etc/nginx/sites-available/guestbook
 sudo ln -s /etc/nginx/sites-available/guestbook /etc/nginx/sites-enabled/guestbook
 sudo rm /etc/nginx/sites-enabled/default
 
-sudo mv /tmp/mountain-scene-welcome-sign-3.gif /usr/share/nginx/html/mountain-scene-welcome-sign-3.gif
+sudo wget -q https://github.com/nikogura/guestbook/raw/master/vagrant/files/mountain-scene-welcome-sign-3.gif -O /usr/share/nginx/html/mountain-scene-welcome-sign-3.gif
 sudo chmod 644 /usr/share/nginx/html/mountain-scene-welcome-sign-3.gif
 
 sudo service nginx restart

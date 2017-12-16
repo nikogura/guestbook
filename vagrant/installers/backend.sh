@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 echo "upgrading system"
-DEBIAN_FRONTEND=noninteractive sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade
+sudo apt-get update
+sudo apt-get -y upgrade
 
 echo "Installing Git"
-DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git nginx
+sudo apt-get -y install git nginx
 
 echo "Installing Go"
 
