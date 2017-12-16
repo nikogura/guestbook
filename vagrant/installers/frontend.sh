@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 echo "upgrading system"
-sudo bash -c "DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y"
+sudo apt-get update
+
+sudo sudo apt-get -y upgrade
 
 echo "Installing Git"
-sudo bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y nginx"
-
+sudo apt-get -y install nginx
 
 NGINX=$(cat <<'EOF'
 server {
