@@ -227,7 +227,7 @@ data "aws_availability_zones" "available" {}
 resource "aws_elb" "frontend" {
   name = "elb-frontend"
 
-  subnets         = ["${aws_subnet.public.id}", "${aws_subnet.frontend.id}"]
+  subnets         = ["${aws_subnet.public.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
   instances       = ["${module.frontend.instance_ids}"]
 

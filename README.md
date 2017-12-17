@@ -11,10 +11,20 @@ I also needed a frontend/backend app to mess with as a subject for some infrastr
 
 This isn't going to win any points, but as long as it stands up and does *something*, it's good enough.
 
-## Running the Code
+## Running the Code Locally
 
-The guestbook is written in Go.  You'll need a Go SDK.
+### Prerequisites
 
+* A properly set up Go SDK
+
+* Git, and access to GitHub
+
+* Postgres running locally on port 5432
+
+* A Database called 'guestbook' with a user called 'guestbook' and a password 'guestbook'.  Imaginative, I know
+
+
+### Installation
 Be sure to set $GOPATH, and put $GOPATH/bin into your $PATH
 
 Once you have one, install the guestbook app with:
@@ -37,8 +47,8 @@ The service expects a config file at ```/etc/guestbook/guestbook.json```.  It's 
           }
         }
         
-To run it locally a Postgres database must be running on localhost:5432, and you'll need to create the database 'guestbook', and user 'guestbook', with password 'guestbook'.
         
+### Running
         
 You can run the service with:
 
@@ -50,16 +60,18 @@ You can run the snapshot tool with:
         
 Snapshotting only works with AWS, not VirtualBox.  If you call ```guestbook snapshot``` without additional arguments, it will snapshot *all* your running instances.  Use with care.
 
+You can get help by running:
 
-## Running with Vagrant and VirtualBox
+        guestbook help
+
+
+## Running the Stack with Vagrant and VirtualBox
 
 ### Prereqs
  
-Make sure you have Vagrant and Virtualbox installed
+* VirtualBox  https://www.virtualbox.org/wiki/Downloads
 
-* Install VirtualBox  https://www.virtualbox.org/wiki/Downloads
-
-* Install Vagrant https://www.vagrantup.com/downloads.html
+* Vagrant https://www.vagrantup.com/downloads.html
 
 ### Run Service
 
@@ -82,9 +94,19 @@ Enjoy!
 
 * Make sure you have your appropriate AWS creds positioned in ```~/.aws/credentials``` .
 
-* Install Terraform.  You can do this manually via: [Terraform Download Page](https://www.terraform.io/downloads.html)  Alternately, on a Mac, you can just run ```brew install terraform```.  Your choice.
+* Region config in ```~/.aws/config```.  This test is hardcoded for the region ```us-east-1```.
 
-* Make sure you have ssh keys installed in the normal location (```~/.ssh/id_rsa``` and ```~/.ssh/id_rsa.pub```)
+* Terraform.  You can install manually via: [Terraform Download Page](https://www.terraform.io/downloads.html)  Alternately, on a Mac, you can just run ```brew install terraform```.  Your choice.
+
+* SSH keys installed in the normal location (```~/.ssh/id_rsa``` and ```~/.ssh/id_rsa.pub```)
+
+### Configuration
+
+The terraform config as writen is set to allow *my* ip access to the backend, not yours.  You'll need to modify the file ```terraform/variables.tf``` with your IP information.
+
+*NOTE: There is a 'bug' with the external ELB config in that Terraform does not like setting an elb in multiple subnets in the same availability zone.  Likewise, it doesn't like you setting availability zones and subnets at the same time.  Depending on your user config, there is a chance that the front end ELB will not spring up with all the relevant availability zones enabled for the frontend servers.*
+
+*If this happens, you just need to add the availability zones to the ELB via the console.  There are ways to fix this, but so far I have not found one that entirely satisfies me, or works every time in every situation.  This message will disappear if I find an acceptable solution*
 
 ### Run Service
 
