@@ -48,7 +48,7 @@ func StringInSlice(a string, list []string) bool {
 	return false
 }
 
-// GetVolumeInfo gets relevant info about volumes currently in existance
+// GetVolumeInfo gets relevant info about volumes currently in existence
 func GetVolumeInfo(awsSession *session.Session, targets []string) (info []VolInfo, err error) {
 	client := ec2.New(awsSession)
 	info = make([]VolInfo, 0)
