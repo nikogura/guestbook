@@ -87,8 +87,7 @@ Point a browser at http://localhost:8080/guestbook/
 
 Enjoy!
 
-
-## Running in AWS
+## Running the Stack in AWS
 
 ### Prereqs
 
