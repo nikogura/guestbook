@@ -91,9 +91,9 @@ Enjoy!
 
 ### Prereqs
 
-* Make sure you have your appropriate AWS creds positioned in ```~/.aws/credentials``` .
+* Appropriate AWS creds positioned in ```~/.aws/credentials``` .
 
-* Region config in ```~/.aws/config```.  This test is hardcoded for the region ```us-east-1```.
+* Region config in ```~/.aws/config```.  This demo architecture is hardcoded for the region ```us-east-1```.
 
 * Terraform.  You can install manually via: [Terraform Download Page](https://www.terraform.io/downloads.html)  Alternately, on a Mac, you can just run ```brew install terraform```.  Your choice.
 
