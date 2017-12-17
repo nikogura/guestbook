@@ -11,8 +11,47 @@ I also needed a frontend/backend app to mess with as a subject for some infrastr
 
 This isn't going to win any points, but as long as it stands up and does *something*, it's good enough.
 
+## Running the Code
 
-## Running with Vagrant and Virtualbox
+The guestbook is written in Go.  You'll need a Go SDK.
+
+Be sure to set $GOPATH, and put $GOPATH/bin into your $PATH
+
+Once you have one, install the guestbook app with:
+
+        go get github.com/nikogura/guestbook
+        
+        
+The service expects a config file at ```/etc/guestbook/guestbook.json```.  It's contents should look like:
+
+        {
+          "state": {
+            "manager": {
+              "type": "gorm",
+        	  "dialect": "postgres",
+              "connect_string": "postgresql://guestbook:guestbook@localhost:5432/guestbook?sslmode=disable"
+            }
+          },
+          "server": {
+            "addr": "0.0.0.0:8080"
+          }
+        }
+        
+To run it locally a Postgres database must be running on localhost:5432, and you'll need to create the database 'guestbook', and user 'guestbook', with password 'guestbook'.
+        
+        
+You can run the service with:
+
+        guestbook run
+        
+You can run the snapshot tool with:
+
+        guestbook snapshot <space separated list of instance names>
+        
+Snapshotting only works with AWS, not VirtualBox.  If you call ```guestbook snapshot``` without additional arguments, it will snapshot *all* your running instances.  Use with care.
+
+
+## Running with Vagrant and VirtualBox
 
 ### Prereqs
  
@@ -55,8 +94,6 @@ To spin it all up, from the root of this checked out repository run Terraform th
         
         terraform apply
     
-*NOTE: Occasionally, depending on your config, the external ELB needs to be manually tweaked to include the proper availability zones.  The author has some funky config that may or may not be to blame.  If the front end ELB doesn't come up healthy in a reasonable amount of time, this is probably the cause. This warning will go away once the author pins the problem down to a root cause and corrects for it.*
-
 ### Test
 
 The Terraform command above will output the front end ELB's url.  Point a browser at that and enjoy!

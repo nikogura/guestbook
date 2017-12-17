@@ -227,10 +227,9 @@ data "aws_availability_zones" "available" {}
 resource "aws_elb" "frontend" {
   name = "elb-frontend"
 
-  subnets         = ["${aws_subnet.public.id}"]
+  subnets         = ["${aws_subnet.public.id}", "${aws_subnet.frontend.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
   instances       = ["${module.frontend.instance_ids}"]
-  #availability_zones = ["${data.aws_availability_zones.available.names}"]
 
   listener {
     instance_port     = 80

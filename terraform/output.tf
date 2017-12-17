@@ -1,16 +1,18 @@
 # Public Load Balancers
 
-//output "backend_address" {
-//  value = "${aws_elb.backend.dns_name}"
-//}
-
 output "frontend_url" {
   value = "http://${aws_elb.frontend.dns_name}/guestbook"
 
 }
 
-# Private Load Balancers
+output "frontend_server_ips" {
+  value = "${module.frontend.public_ips}"
+}
 
-//output "db_loadbalancer" {
-//  value = "${aws_elb.db_postgres.dns_name}"
-//}
+output "app_server_ips" {
+  value = "${module.app.public_ips}"
+}
+
+output "backend_server_ips" {
+  value = "${module.backend.public_ips}"
+}

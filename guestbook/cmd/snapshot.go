@@ -16,8 +16,10 @@ package cmd
 
 import (
 	"fmt"
-
+	"github.com/nikogura/guestbook/guestbook/snapshot"
 	"github.com/spf13/cobra"
+	"log"
+	"os"
 )
 
 // snapshotCmd represents the snapshot command
@@ -27,10 +29,33 @@ var snapshotCmd = &cobra.Command{
 	Long: `
 Snapshots the volumes attached to the guestbook instances.
 
-Stores them in S3
+Tags them with the following:
+
+Name: <instance name>_<device name>
+Date: <timestamp>
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("snapshot called")
+
+		awsSession := snapshot.Ec2Session()
+
+		if len(args) == 0 {
+			fmt.Printf("Snapshotting All volumes.\n")
+			err := snapshot.SnapshotRunningVolumes(awsSession, nil)
+			if err != nil {
+				log.Printf("error snapshotting volumes: %s", err)
+				os.Exit(1)
+			}
+			fmt.Printf("Done.\n")
+
+		} else {
+			fmt.Printf("Snapshotting volumes for: %s\n", args)
+			err := snapshot.SnapshotRunningVolumes(awsSession, args)
+			if err != nil {
+				log.Printf("error snapshotting volumes: %s", err)
+				os.Exit(1)
+			}
+			fmt.Printf("Done.\n")
+		}
 	},
 }
 
