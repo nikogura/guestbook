@@ -10,3 +10,8 @@ Why?  I wanted to play with some database stuff in go.
 I also needed a frontend/backend app to mess with as a subject for some infrastructre projects.
 
 This isn't going to win any points, but as long as it stands up and does *something*, it's good enough.
+
+
+## Running with Vagrant and Virtualbox
+
+

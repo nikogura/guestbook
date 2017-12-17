@@ -30,6 +30,14 @@ virtual_machines = [
     },
 ]
 
+unless Vagrant.has_plugin?("vagrant-auto_network")
+  raise 'Vagrant plugin "vagrant-auto_network" is required.  Run "vagrant plugin install vagrant-auto_network" and try again.'
+end
+
+unless Vagrant.has_plugin?("vagrant-hosts")
+  raise 'Vagrant plugin "vagrant-hosts" is required.  Run "vagrant plugin install vagrant-hosts" and try again.'
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   virtual_machines.each do |machine|
     config.vm.define machine[:name] do |box|
