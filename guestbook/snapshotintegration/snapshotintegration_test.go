@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"log"
 	"os"
+	"os/user"
 	"testing"
 )
 
@@ -30,6 +31,22 @@ func TestMain(m *testing.M) {
 
 func setUp() {
 	actuallyDoSnapshots = false
+
+	userObj, err := user.Current()
+	if err != nil {
+		log.Printf("Failed to derive current user")
+		os.Exit(1)
+	}
+
+	homeDir := userObj.HomeDir
+
+	configDir := fmt.Sprintf("%s/.aws", homeDir)
+
+	if _, err := os.Stat(configDir); os.IsNotExist(err) {
+		log.Printf("AWS Session could not be created.  Skipping integration tests.")
+		os.Exit(0)
+	}
+
 	sess, err := snapshot.Ec2Session()
 	if err != nil {
 		log.Printf("AWS Session could not be created.  Skipping integration tests.")
