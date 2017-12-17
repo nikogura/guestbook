@@ -23,6 +23,7 @@ type InstanceInfo struct {
 	InstanceName string
 }
 
+// InstanceInfoMaps areUseful Maps of instance info.
 type InstanceInfoMaps struct {
 	Id2Info   map[string]InstanceInfo
 	Name2Info map[string]InstanceInfo
@@ -67,7 +68,6 @@ func GetVolumeInfo(awsSession *session.Session, targets []string) (info []VolInf
 			err = errors.Wrapf(err, "error searching volumes")
 			return info, err
 		}
-		return info, err
 	}
 
 	for _, vol := range result.Volumes {
@@ -272,7 +272,6 @@ func TagResource(awsSession *session.Session, resource string, nametag string, t
 			err = errors.Wrapf(aerr, "failed to create tags")
 			return err
 		}
-		return err
 	}
 
 	return err

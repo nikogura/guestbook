@@ -1,4 +1,4 @@
-package snapshot_integration_tests
+package snapshotintegration
 
 func testInstanceName() string {
 	return "testbox"
