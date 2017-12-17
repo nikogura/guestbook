@@ -15,7 +15,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/nikogura/guestbook/guestbook/snapshot"
 	"github.com/spf13/cobra"
 	"log"
@@ -36,25 +35,29 @@ Date: <timestamp>
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		awsSession := snapshot.Ec2Session()
+		awsSession, err := snapshot.Ec2Session()
+		if err != nil {
+			log.Printf("Failed to instantiate EC2 Client session.  Do you have credentials in the usual locations?")
+			os.Exit(1)
+		}
 
 		if len(args) == 0 {
-			fmt.Printf("Snapshotting All volumes.\n")
+			log.Printf("Snapshotting All volumes.")
 			err := snapshot.SnapshotRunningVolumes(awsSession, nil)
 			if err != nil {
 				log.Printf("error snapshotting volumes: %s", err)
 				os.Exit(1)
 			}
-			fmt.Printf("Done.\n")
+			log.Printf("Done.")
 
 		} else {
-			fmt.Printf("Snapshotting volumes for: %s\n", args)
+			log.Printf("Snapshotting volumes for: %s", args)
 			err := snapshot.SnapshotRunningVolumes(awsSession, args)
 			if err != nil {
 				log.Printf("error snapshotting volumes: %s", err)
 				os.Exit(1)
 			}
-			fmt.Printf("Done.\n")
+			log.Printf("Done.")
 		}
 	},
 }

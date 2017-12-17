@@ -30,12 +30,12 @@ type InstanceInfoMaps struct {
 }
 
 // Ec2Session returns a new ec2 session with shared configs
-func Ec2Session() (awsSession *session.Session) {
-	awsSession = session.Must(session.NewSessionWithOptions(session.Options{
+func Ec2Session() (awsSession *session.Session, err error) {
+	awsSession, err = session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
-	}))
+	})
 
-	return
+	return awsSession, err
 }
 
 // StringInSlice returns true if the given string is in the given slice
@@ -52,11 +52,35 @@ func StringInSlice(a string, list []string) bool {
 func GetVolumeInfo(awsSession *session.Session, targets []string) (info []VolInfo, err error) {
 	client := ec2.New(awsSession)
 	info = make([]VolInfo, 0)
+	filters := make([]*ec2.Filter, 0)
 
-	// list volumes
-	input := &ec2.DescribeVolumesInput{}
+	var params *ec2.DescribeVolumesInput
 
-	result, err := client.DescribeVolumes(input)
+	if targets != nil {
+		awsnames := make([]*string, 0)
+
+		for _, name := range targets {
+			awsnames = append(awsnames, aws.String(name))
+		}
+
+		nameFilter := ec2.Filter{
+			Name:   aws.String("attachment.instance-id"),
+			Values: awsnames,
+		}
+
+		filters = append(filters, &nameFilter)
+	}
+
+	if len(filters) > 0 {
+		params = &ec2.DescribeVolumesInput{
+			Filters: filters,
+		}
+
+	} else {
+		params = &ec2.DescribeVolumesInput{}
+	}
+
+	result, err := client.DescribeVolumes(params)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
@@ -74,26 +98,13 @@ func GetVolumeInfo(awsSession *session.Session, targets []string) (info []VolInf
 		instanceId := *vol.Attachments[0].InstanceId
 		deviceName := *vol.Attachments[0].Device
 
-		if targets != nil { // if we're passed a target list, only append the info if it's one of the targets
-			if StringInSlice(instanceId, targets) {
-				i := VolInfo{
-					InstanceId: instanceId,
-					DeviceName: deviceName,
-					VolumeId:   *vol.VolumeId,
-				}
-
-				info = append(info, i)
-			}
-
-		} else { // otherwise grab 'em all
-			i := VolInfo{
-				InstanceId: instanceId,
-				DeviceName: deviceName,
-				VolumeId:   *vol.VolumeId,
-			}
-
-			info = append(info, i)
+		i := VolInfo{
+			InstanceId: instanceId,
+			DeviceName: deviceName,
+			VolumeId:   *vol.VolumeId,
 		}
+
+		info = append(info, i)
 	}
 
 	return info, err
@@ -108,13 +119,28 @@ func GetInstanceInfoMaps(awsSession *session.Session, targets []string) (infomap
 	infomaps.Id2Info = id2info
 	infomaps.Name2Info = name2info
 
-	params := &ec2.DescribeInstancesInput{
-		Filters: []*ec2.Filter{
-			{
-				Name:   aws.String("instance-state-name"),
-				Values: []*string{aws.String("running")},
-			},
-		},
+	filters := make([]*ec2.Filter, 0)
+
+	var params *ec2.DescribeInstancesInput
+
+	if targets != nil {
+		awsnames := make([]*string, 0)
+
+		for _, name := range targets {
+			awsnames = append(awsnames, aws.String(name))
+		}
+
+		nameFilter := ec2.Filter{
+			Name:   aws.String("tag:Name"),
+			Values: awsnames,
+		}
+
+		filters = append(filters, &nameFilter)
+		params = &ec2.DescribeInstancesInput{
+			Filters: filters,
+		}
+	} else {
+		params = &ec2.DescribeInstancesInput{}
 	}
 
 	result, err := client.DescribeInstances(params)
@@ -137,25 +163,13 @@ func GetInstanceInfoMaps(awsSession *session.Session, targets []string) (infomap
 				}
 			}
 
-			if targets != nil { // if we have targets, only return info on the targets
-				if StringInSlice(name, targets) {
-					i := InstanceInfo{
-						InstanceId:   *instance.InstanceId,
-						InstanceName: name,
-					}
-
-					id2info[*instance.InstanceId] = i
-					name2info[name] = i
-				}
-			} else { // return everything
-				i := InstanceInfo{
-					InstanceId:   *instance.InstanceId,
-					InstanceName: name,
-				}
-
-				id2info[*instance.InstanceId] = i
-				name2info[name] = i
+			i := InstanceInfo{
+				InstanceId:   *instance.InstanceId,
+				InstanceName: name,
 			}
+
+			id2info[*instance.InstanceId] = i
+			name2info[name] = i
 		}
 	}
 

@@ -29,17 +29,28 @@ func TestMain(m *testing.M) {
 }
 
 func setUp() {
-	awsSession = snapshot.Ec2Session()
 	actuallyDoSnapshots = false
+	sess, err := snapshot.Ec2Session()
+	if err != nil {
+		log.Printf("AWS Session could not be created.  Skipping integration tests.")
+		os.Exit(0)
+	}
+
+	awsSession = sess
+
+	// In a perfect world, we'd create the test instance we're working with.
 }
 
 func tearDown() {
+
+	// and in that perfect world, we'd remove it when we're done.
 
 }
 
 // TestGetInstanceInfoMaps gets instance information filtered to the test box name in fixtures and verifies all is well
 func TestGetInstanceInfoMaps(t *testing.T) {
-	infomaps, err := snapshot.GetInstanceInfoMaps(awsSession, []string{testInstanceName()})
+	//infomaps, err := snapshot.GetInstanceInfoMaps(awsSession, []string{testInstanceName()})
+	infomaps, err := snapshot.GetInstanceInfoMaps(awsSession, nil)
 	if err != nil {
 		log.Printf("Error fetching instances: %s", err)
 		t.Fail()
