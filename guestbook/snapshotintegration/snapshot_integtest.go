@@ -14,9 +14,10 @@ import (
 // set ActuallyDoSnapshots = true if you actually want to snapshot the box
 // You can confirm in the console, which is crude, and inelegant, but I was running up against resource limits, and couldn't spend to fully flesh out the test
 
-var ActuallyDoSnapshots bool
+var actuallyDoSnapshots bool
 var awsSession *session.Session
 
+// TestMain runs before each test case
 func TestMain(m *testing.M) {
 	setUp()
 
@@ -29,13 +30,14 @@ func TestMain(m *testing.M) {
 
 func setUp() {
 	awsSession = snapshot.Ec2Session()
-	ActuallyDoSnapshots = false
+	actuallyDoSnapshots = false
 }
 
 func tearDown() {
 
 }
 
+// TestGetInstanceInfoMaps gets instance information filtered to the test box name in fixtures and verifies all is well
 func TestGetInstanceInfoMaps(t *testing.T) {
 	infomaps, err := snapshot.GetInstanceInfoMaps(awsSession, []string{testInstanceName()})
 	if err != nil {
@@ -78,12 +80,13 @@ func TestGetInstanceInfoMaps(t *testing.T) {
 
 }
 
+// TestSnapshotRunningVolumes actually runs the snapshots
 // This can stack up the snapshots quickly
 // Ideally we would run this, and verify the snapshot was made, with the right tags, id's, etc
 // But this could seriously clog up my free tier usage.
 // I think I've demonstrated that it can be done.
 func TestSnapshotRunningVolumes(t *testing.T) {
-	if ActuallyDoSnapshots {
+	if actuallyDoSnapshots {
 		// ideally verify that we don't already have a snapshot and therefore confuse ourselves
 
 		// make the snapshot
